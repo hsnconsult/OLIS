@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="minimal_layout_inherit" inherit_id="web.minimal_layout">
+		<xpath expr="//head" position="inside">
+			<link rel='stylesheet' href="/oclinic/static/src/css/clinic.css"/>
+		</xpath>
+</template>
+<template id="etatrecettedeta">
+    <t t-call="web.html_container">
+        <t t-set="data_report_margin_top" t-value="12"/>
+        <t t-set="data_report_header_spacing" t-value="9"/>
+        <t t-set="data_report_dpi" t-value="110"/>
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.basic_layout">
+                <div class="page break-after" style="font-family:Arial, Helvetica, sans-serif; ">
+<t t-if="o.state != 'closed'">
+<div style="position:absolute;opacity:0.25;z-index:1000;transform:rotate(300deg);-webkit-transform:rotate(300deg);width:150%;">
+<p style="font-size:100px;">BROUILLON</p>
+</div>
+</t>
+						 <t t-set="totgeneral" t-value="0"/>
+  <table style="width:100%" class="tablerec">
+						 <thead>
+                           <tr><td colspan="4" align="center"><strong>ETAT DES VENTES DU <t t-esc="o.start_at" t-options="{'widget': 'date'}"/> / PRESTATIONS</strong></td></tr> 
+                           <tr>
+							  <td align="center"><strong>DESCRIPTION</strong></td>
+							  <td align="center"><strong>PRIX</strong></td>
+							  <td align="center"><strong>QTE</strong></td>
+							  <td align="center"><strong>MONTANT</strong></td>
+							</tr>  
+						 </thead>
+						 <t t-set="totprestation" t-value="0"/>
+						 <t t-foreach="o.env['product.template'].search([('description','=','prestation')],order='barcode')" t-as="art">
+						    <tr>
+							  <td><t t-esc="art.name"/></td>
+							  <td><span t-esc="'{:,.0f}'.format(art.list_price).replace(',', ' ').replace('.', ',')"/></td>
+							  <td align="right">
+						         <t t-set="quantite" t-value=""/>
+						         <t t-foreach="o.ligne_detail" t-as="l">
+						          <t t-if="l.idarticle.id==art.id">
+						           <t t-set="quantite" t-value="l.quantite"/>
+                                   <span t-esc="'{:,.0f}'.format(quantite).replace(',', ' ').replace('.', ',')"/>
+						          </t>
+						         </t>
+                              </td>
+							  <td align="right">
+						         <t t-set="recette" t-value=""/>
+						         <t t-foreach="o.ligne_detail" t-as="l">
+						          <t t-if="l.idarticle.id==art.id">
+						           <t t-set="recette" t-value="l.recette"/>
+                                   <span t-esc="'{:,.0f}'.format(recette).replace(',', ' ').replace('.', ',')"/>
+						           <t t-set="totprestation" t-value="totprestation+l.recette"/>
+						           <t t-set="totgeneral" t-value="totgeneral+l.recette"/>
+						          </t>
+						         </t>
+                              </td>
+							</tr>
+						</t>
+						    <tr>
+							  <td colspan="3">TOTAL PRESTATIONS</td>
+							  <td><span t-esc="'{:,.0f}'.format(totprestation).replace(',', ' ').replace('.', ',')"/></td>
+							</tr>
+   </table>
+</div>
+ <div class="page break-after" style="font-family:Arial, Helvetica, sans-serif; ">
+  <table style="width:100%" class="tablerec">
+						 <thead>
+                           <tr><td colspan="4" align="center"><strong>ETAT DES VENTES DU <t t-esc="o.start_at" t-options="{'widget': 'date'}"/> / EXAMENS</strong></td></tr> 
+                           <tr>
+							  <td align="center"><strong>DESCRIPTION</strong></td>
+							  <td align="center"><strong>PRIX</strong></td>
+							  <td align="center"><strong>QTE</strong></td>
+							  <td align="center"><strong>MONTANT</strong></td>
+							</tr>  
+						 </thead>
+						 <t t-set="totexamen" t-value="0"/>
+						 <t t-foreach="o.env['product.template'].search([('description','=','examen')],order='barcode')" t-as="art">
+						    <tr>
+							  <td><t t-esc="art.name"/></td>
+							  <td><span t-esc="'{:,.0f}'.format(art.list_price).replace(',', ' ').replace('.', ',')"/></td>
+							  <td align="right">
+						         <t t-set="quantite" t-value=""/>
+						         <t t-foreach="o.ligne_detail" t-as="l">
+						          <t t-if="l.idarticle.id==art.id">
+						           <t t-set="quantite" t-value="l.quantite"/>
+                                   <span t-esc="'{:,.0f}'.format(quantite).replace(',', ' ').replace('.', ',')"/>
+						          </t>
+						         </t>
+                              </td>
+							  <td align="right">
+						         <t t-set="recette" t-value=""/>
+						         <t t-foreach="o.ligne_detail" t-as="l">
+						          <t t-if="l.idarticle.id==art.id">
+						           <t t-set="recette" t-value="l.recette"/>
+                                   <span t-esc="'{:,.0f}'.format(recette).replace(',', ' ').replace('.', ',')"/>
+						           <t t-set="totexamen" t-value="totexamen+l.recette"/>
+						           <t t-set="totgeneral" t-value="totgeneral+l.recette"/>
+						          </t>
+						         </t>
+                              </td>
+							</tr>
+						</t>
+						    <tr>
+							  <td colspan="3">TOTAL EXAMENS</td>
+							  <td><span t-esc="'{:,.0f}'.format(totexamen).replace(',', ' ').replace('.', ',')"/></td>
+							</tr>
+   </table>
+</div>
+  <div class="page break-after" style="font-family:Arial, Helvetica, sans-serif; ">
+  <table style="width:100%" class="tablerec">
+						 <thead>
+                           <tr><td colspan="8" align="center"><strong>ETAT DES VENTES DU <t t-esc="o.start_at" t-options="{'widget': 'date'}"/> / PHARMACIE </strong></td></tr> 
+                           <tr>
+							  <td align="center"><strong>Désignation</strong></td>
+							  <td align="center"><strong>Prix</strong></td>
+							  <td align="center"><strong>Final</strong></td>
+							  <td align="center"><strong>Appro</strong></td>
+							  <td align="center"><strong>Départ</strong></td>
+							  <td align="center"><strong>Qte</strong></td>
+							  <td align="center"><strong>Montant</strong></td>
+							  <td align="center"><strong>Final</strong></td>
+							</tr>  
+						 </thead>
+						 <t t-set="totpharmacie" t-value="0"/>
+						 <t t-foreach="o.env['clinic.stock'].search([('idsession','=',o.id)],order='idarticle')" t-as="art">
+						    <tr>
+							  <td><t t-esc="art.idarticle.name"/></td>
+							  <td><span t-esc="'{:,.0f}'.format(art.idarticle.list_price).replace(',', ' ').replace('.', ',')"/></td>
+							  <td><span t-esc="'{:,.0f}'.format(art.qtedep).replace(',', ' ').replace('.', ',')"/></td>
+							  <td><span t-esc="'{:,.0f}'.format(art.qteapp).replace(',', ' ').replace('.', ',')"/></td>
+							  <td><span t-esc="'{:,.0f}'.format(art.qtedep2).replace(',', ' ').replace('.', ',')"/></td>
+							  <td><span t-esc="'{:,.0f}'.format(art.qtevendue).replace(',', ' ').replace('.', ',')"/></td>
+							  <td><span t-esc="'{:,.0f}'.format(art.montant).replace(',', ' ').replace('.', ',')"/></td>
+							  <td><span t-esc="'{:,.0f}'.format(art.qtefin).replace(',', ' ').replace('.', ',')"/></td>
+							</tr>
+						 <t t-set="totpharmacie" t-value="totpharmacie+art.montant"/>
+						           <t t-set="totgeneral" t-value="totgeneral+art.montant"/>
+						</t>
+						    <tr>
+							  <td colspan="6">TOTAL PHARMACIE</td>
+							  <td><span t-esc="'{:,.0f}'.format(totpharmacie).replace(',', ' ').replace('.', ',')"/></td>
+							  <td></td>
+							</tr>
+						    <tr>
+							  <td colspan="6">TOTAL GENERAL</td>
+							  <td><span t-esc="'{:,.0f}'.format(totgeneral).replace(',', ' ').replace('.', ',')"/></td>
+							  <td></td>
+							</tr>
+   </table>
+
+  <table style="width:100%" class="tablerec">
+						    <tr>
+							  <td align="center" style="width:50%"><strong>NOM ET SIGNATURE VENDEUSE<br/><br/><br/><br/></strong></td>
+							  <td><strong>NOM ET SIGNATURE DE LA COMPTABLE</strong></td>							
+                            </tr>
+   </table>
+</div>
+        </t>
+		        </t>
+    </t>
+</template>
+
+</odoo>

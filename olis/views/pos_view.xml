@@ -1,0 +1,468 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data><!-- Top menu -->
+        <act_window 
+            id="action_opcaisse"
+            name="TARIFICATION"
+            res_model="clinic.opcaisse"
+            src_model="pos.session"
+            context="{'default_idopcaisse':active_id}"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"/>
+        <act_window 
+            id="action_caution"
+            name="PREPAIEMENT"
+            res_model="clinic.caution"
+            src_model="pos.session"
+            context="{'default_idcaution':active_id}"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"/>		
+		<act_window 
+            id="action_recettegarde"
+            name="Recette garde"
+            res_model="clinic.recettegarde"
+            src_model="pos.session"
+            context="{'default_idrecettegarde':active_id}"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"/>
+		<act_window 
+            id="action_transfert"
+            name="Transfert"
+            res_model="clinic.transfert"
+            src_model="pos.session"
+            context="{'default_idtransfert':active_id}"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"/>
+		<act_window 
+            id="action_reghospi"
+            name="Reghospi"
+            res_model="clinic.reghospi"
+            src_model="pos.session"
+            context="{'default_idreghospi':active_id}"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"/>
+		<act_window 
+            id="action_recouvrement"
+            name="Recouvrement"
+            res_model="clinic.recouvrement"
+            src_model="pos.session"
+            context="{'default_idrecouvrement':active_id}"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"/>
+		<act_window 
+            id="action_patient"
+            name="Enregistrement"
+            res_model="clinic.patient"
+            src_model="pos.session"
+            context="{'default_idrecouvrement':active_id}"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"/>
+<record id="clinic_sessioncaisse_form" model="ir.ui.view">
+            <field name="name">Secaisse.ext</field>
+            <field name="model">pos.session</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
+             <field name="arch" type="xml">
+                <xpath expr="//button[@name='open_cashbox']" position="replace" />
+                <xpath expr="//button[@name='open_frontend_cb']" position="replace" />
+                <xpath expr="//button[@name='%(point_of_sale.action_pos_box_in)d']" position="replace" />
+                <xpath expr="//button[@name='%(point_of_sale.action_pos_box_out)d']" position="replace" />
+                <xpath expr="//button[@name='open_cashbox']" position="replace" />
+                <xpath expr="//button[@name='action_pos_session_closing_control']" position="replace" />
+                <xpath expr="//button[@name='action_pos_session_closing_control']" position="replace" />
+                <xpath expr="//button[@name='action_pos_session_validate']" position="replace" />
+                <xpath expr="//button[@name='action_pos_session_open']" position="after">
+                    <button name="reouvrir" type="object" string="Réouvrir la session" attrs="{'invisible' : [('state', '!=', 'closing_control')]}" class="oe_highlight" groups="oclinic.group_clinic_caissier"/>
+                    <button name="action_pos_session_closing_control" type="object" string="Fermer la session" attrs="{'invisible' : ['|', ('cash_control', '=', False),('state', '!=', 'opened')]}" class="oe_highlight" groups="oclinic.group_clinic_caissier"/>
+                    <button name="action_pos_session_closing_control" type="object" string="Valider la clôture" attrs="{'invisible' : ['|', ('cash_control', '=', True),('state', '!=', 'opened')]}" class="oe_highlight" groups="oclinic.group_micro_caissier"/>
+                    <button name="action_pos_session_validate" type="object" string="Valider la clôture" states="closing_control" class="oe_highlight" groups="oclinic.group_clinic_caissier"/>
+                </xpath>
+                <xpath expr="//button[@name='action_stock_picking']" position="before">
+                       <button name="open_cashbox"
+                            class="oe_stat_button"
+                            attrs="{'invisible':['|', '|', '|', ('cash_control', '=', False), ('state', '=', 'opening_control'), ('state', '=', 'closed'), ('state', '=', 'opened')]}" 
+                            icon="fa-money"
+                            type="object" context="{'balance': 'end'}"
+                            groups="olis.group_clinic_caissier">
+                            <span class="o_stat_text">Régler le solde de clôture</span>
+                        </button>
+                        <button class="oe_stat_button" name="%(action_patient)d" style="margin-right:20px"
+                            type="action" icon="fa-user"
+                            attrs="{'invisible': ['|', ('cash_control', '=', False), ('state', 'not in', ['opened'])]}" groups="olis.group_clinic_caissier">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">ENREGISTREMENT</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" name="%(action_opcaisse)d"
+                            type="action" icon="fa-calculator"
+                            attrs="{'invisible': ['|', ('cash_control', '=', False), ('state', 'not in', ['opened'])]}" groups="olis.group_clinic_caissier">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">TARIFICATION</span>
+                            </div>
+                        </button><br/><br/>
+						<button class="oe_stat_button" name="%(action_recouvrement)d" style="margin-right:20px"
+                            type="action" icon="fa-money"
+                            attrs="{'invisible': ['|', ('cash_control', '=', False), ('state', 'not in', ['opened'])]}" groups="olis.group_clinic_caissier">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">RECOUVRE-</span>
+                                <span class="o_stat_text">MENT</span>
+                            </div>
+                        </button>
+						<button class="oe_stat_button" name="%(action_caution)d"
+                            type="action" icon="fa-credit-card"
+                            attrs="{'invisible': ['|', ('cash_control', '=', False), ('state', 'not in', ['opened'])]}" groups="olis.group_clinic_caissier">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">PREPAIE-</span>
+                                <span class="o_stat_text">MENT</span>
+                            </div>
+                        </button>
+						<!--<button class="oe_stat_button" name="%(action_recettegarde)d"
+                            type="action" icon="fa-level-down"
+                            attrs="{'invisible': ['|', ('cash_control', '=', False), ('state', 'not in', ['opened'])]}" groups="oclinic.group_clinic_caissier">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Recette</span>
+                                <span class="o_stat_text">Fonds</span>
+                            </div>
+                        </button>-->
+
+						<!--<button class="oe_stat_button" name="%(action_reghospi)d"
+                            type="action" icon="fa-level-down"
+                            attrs="{'invisible': ['|', ('cash_control', '=', False), ('state', 'not in', ['opened'])]}" groups="oclinic.group_clinic_caissier">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Reglement</span>
+                                <span class="o_stat_text">HOSPI</span>
+                            </div>
+                        </button>-->
+                </xpath>
+
+
+
+                <xpath expr="//field[@name='statement_ids']" position="after">
+                    <notebook>
+                        <page string="TARIFICATIONS" attrs="{'invisible': [('state', 'in', ('nouveau'))]}">
+                            <field name="ligne_opcaisse" nolabel="1" widget="one2many_list" mode="tree" attrs="{'readonly': [('state', '!=', 'opened')]}">
+                                <tree string="Operation caisse">
+									<field name="date"/>
+									<field name="name" />
+									<field name="idpatient" />
+									<field name="nompatient" />
+									<field name="idassurance" invisible="1"/>
+									<field name="idsociete" invisible="1"/>
+									<field name="montantpatient" sum="totm" invisible="1"/>
+									<field name="montantass" sum="totm" invisible="1"/>
+									<field name="montant"  sum="totm" />
+									<field name="etatfact" invisible="1"/>
+									<field name="numrecu" invisible="1" />
+									<field name="state" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Opérations sur Quitance" attrs="{'invisible': [('state', 'not in', ('desactive'))]}">
+                            <field name="ligne_opcaisseligne" nolabel="1" widget="one2many_list" mode="tree" attrs="{'readonly': [('state', '!=', 'opened')]}">
+                                <tree string="Opérations sur Quitance" editable="bottom">
+									<field name="idpatient"  attrs="{'readonly': [('state', '!=', 'brouillon')]}"/>
+									<field name="idarticle" attrs="{'readonly': [('state', '!=', 'brouillon')]}" />
+									<field name="numquit" attrs="{'readonly': [('state', '!=', 'brouillon')]}" />
+									<field name="qte"  attrs="{'readonly': [('state', '!=', 'brouillon')]}" />
+									<field name="pu"  attrs="{'readonly': [('state', '!=', 'brouillon')]}" />
+									<field name="idmedecin" invisible="1" />
+									<field name="plafond" invisible="1"/>
+									<field name="montantpatient" invisible="1" />
+									<field name="montantass" invisible="1" />
+									<field name="montant"  attrs="{'readonly': [('state', '!=', 'brouillon')]}" sum="totm"/>
+									<field name="name" />
+									<field name="state" />
+					                <button name="validef_l" string="Valider" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'brouillon')]}" />
+					                <button name="annuler_l" string="Annuler" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'valide')]}" />	
+
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Pharmacie" attrs="{'invisible': [('state', 'not in', ('desactive'))]}">
+                            <field name="ligne_pharmacie" nolabel="1" widget="one2many_list" mode="tree" attrs="{'readonly': [('state', '!=', 'opened')]}">
+                                <tree string="Pharmacie" editable="bottom" limit="200">
+									<field name="idpatient"  attrs="{'readonly': [('state', '!=', 'brouillon')]}" invisible="1"/>
+									<field name="idarticle"  attrs="{'readonly': [('state', '!=', 'brouillon')]}"/>
+									<field name="qte"  attrs="{'readonly': [('state', '!=', 'brouillon')]}"/>
+									<field name="pu"  attrs="{'readonly': [('state', '!=', 'brouillon')]}"/>
+									<field name="idmedecin" invisible="1" />
+									<field name="plafond" invisible="1"/>
+									<field name="montantpatient" invisible="1" />
+									<field name="montantass" invisible="1" />
+									<field name="montant"  attrs="{'readonly': [('state', '!=', 'brouillon')]}" sum="totm"/>
+									<field name="name" />
+									<field name="state" />
+					                <button name="validef_l" string="Valider" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'brouillon')]}" />
+					                <button name="annuler_l" string="Annuler" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'valide')]}" />	
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="APPRO" attrs="{'invisible': [('state', 'not in', ('desactive'))]}">
+                            <field name="ligne_appro" nolabel="1" widget="one2many_list" mode="tree" attrs="{'readonly': [('state', '!=', 'opened')]}">
+                                <tree string="Appro" editable="bottom">
+									<field name="idarticle"/>
+									<field name="qte"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="DEPENSES" attrs="{'invisible': [('state', 'not in', ('desactive'))]}">
+                            <field name="ligne_depense" nolabel="1" widget="one2many_list" mode="tree" attrs="{'readonly': [('state', '!=', 'opened')]}">
+                                <tree string="Depense" editable="bottom">
+									<field name="motif"/>
+									<field name="montant" sum="totm"/>
+									<field name="name" />
+									<field name="state" />
+					                <button name="validef_d" string="Valider" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'brouillon')]}" />
+					                <button name="annuler_d" string="Annuler" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'valide')]}" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="RESUME" attrs="{'invisible': [('state', 'not in', ('desactive'))]}">
+                            <field name="ligne_resume" nolabel="1" widget="one2many_list" mode="tree" attrs="{'readonly': [('state', '!=', 'openedd')]}">
+                                <tree string="Resume">
+									<field name="prestation"/>
+									<field name="recette" sum="totm"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="DETAIL" attrs="{'invisible': [('state', 'not in', ('desactive'))]}">
+                            <field name="ligne_detail" nolabel="1" widget="one2many_list" mode="tree" attrs="{'readonly': [('state', '!=', 'openedd')]}">
+                                <tree string="Resume">
+									<field name="idcateg"/>
+									<field name="idarticle"/>
+									<field name="quantite"/>
+									<field name="recette" sum="totm"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="STOCKS" attrs="{'invisible': [('state', 'not in', ('desactive'))]}">
+                            <field name="ligne_stock" nolabel="1" widget="one2many_list" mode="tree" attrs="{'readonly': [('state', '!=', 'openedd')]}">
+                                <tree string="stock">
+									<field name="idarticle"/>
+									<field name="qtedep"/>
+									<field name="qteapp"/>
+									<field name="qtedep2"/>
+									<field name="qtevendue"/>
+									<field name="montant"/>
+									<field name="qtefin"/>
+                                </tree>
+                            </field>
+                        </page>
+						<page string="PREPAIEMENTS" attrs="{'invisible': [('state', 'in', ('nouveau'))]}">
+                            <field name="ligne_caution" nolabel="1" widget="one2many_list" mode="tree" attrs="{'readonly': [('state', '!=', 'opened')]}">
+                                <tree string="Cautions versées">
+									<field name="date"/>
+									<field name="name" />
+									<field name="idpatient" />
+									<field name="nompatient" />
+									<field name="objet" />
+									<field name="montant" sum="totm"/>
+									<field name="state" />
+                                </tree>
+                            </field>
+                        </page>
+						<page string="RECOUVREMENTS" attrs="{'invisible': [('state', 'in', ('nouveau'))]}">
+                            <field name="ligne_recouvrement" nolabel="1" widget="one2many_list" mode="tree" attrs="{'readonly': [('state', '!=', 'opened')]}">
+                                <tree string="Recouvrements">
+									<field name="idpatient"/>
+									<field name="nompatient" />
+									<field name="totalrec" sum="totm"/>
+									<field name="totalprepaie" sum="totm"/>
+									<field name="totalpaie" sum="totm"/>
+									<field name="restepaie" sum="totm"/>
+									<field name="state" />
+                                </tree>
+                            </field>
+                        </page>
+						<page string="HOSPI" attrs="{'invisible': [('state', 'not in', ('desactive'))]}">
+                            <field name="ligne_reghospi" nolabel="1" widget="one2many_list" mode="tree" attrs="{'readonly': [('state', '!=', 'opened')]}">
+                                <tree string="Reglements HOSPI">
+									<field name="date"/>
+									<field name="name" />
+									<field name="idpatient" />
+									<field name="montant" sum="totm"/>
+									<field name="montantpatient" sum="totm"/>
+									<field name="montantass" sum="totm"/>
+									<field name="montantcaution" sum="totm"/>
+									<field name="montantcomp" sum="totm"/>
+									<field name="montantremb" sum="totm"/>
+									<field name="state" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Recette garde" attrs="{'invisible': [('state', 'not in', ('desactive'))]}">
+                            <field name="ligne_recettegarde" nolabel="1" widget="one2many_list" mode="tree" attrs="{'readonly': [('state', '!=', 'opened')]}">
+                                <tree string="Recette garde">
+									<field name="date"/>
+									<field name="name" />
+									<field name="deposant" />
+									<field name="receptionniste" />
+									<field name="montant" sum="totm"/>
+									<field name="state" />
+                                </tree>
+                            </field>
+                        </page>
+						<page string="Transfert fonds" attrs="{'invisible': [('state', 'not in', ('desactive'))]}">
+                            <field name="ligne_transfert" nolabel="1" widget="one2many_list" mode="tree" attrs="{'readonly': [('state', '!=', 'opened')]}">
+                                <tree string="Transfert">
+									<field name="name" />
+									<field name="datetrans"/>
+									<field name="destination"/>
+									<field name="caissier_id" />
+									<field name="tresorier_id" />
+									<field name="state"/>
+									<field name="montant"/>
+									<field name="ref"/>																	
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+				</field>
+	     </record>
+		 <record id="clinic_transfert_form" model="ir.ui.view">
+	         <field name="name">clinic.transfert.form</field>
+             <field name="model">clinic.transfert</field>
+             <field name="arch" type="xml">
+	         <form string="Transferts">
+                      <header>
+					    <button name="vertransfert" string="Vérouiller" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'ouvert')]}" groups="oclinic.group_clinic_caissier"/>
+						<button name="devertransfert" string="Dévérouiller" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'verrouille')]}" groups="oclinic.group_clinic_caissier"/>
+					    <button name="validetransfert" string="Valider Transfert" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'verrouille')]}" groups="oclinic.group_clinic_tresorier"/>
+					    <button name="aannuler" string="Annuler" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'valide')]}" groups="oclinic.group_clinic_caissier"/>	
+						<button name="revenir" string="Revenir" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'aannuler')]}" groups="oclinic.group_clinic_caissier"/>					
+						<button name="annuler" string="Confirmer Annulation" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'aannuler')]}" groups="oclinic.group_clinic_tresorier"/>								
+				        <button name="%(report_btransfert)d" string="Imprimer Bordereau" type="action" icon="gtk-print" attrs="{'invisible': [('state', '!=', 'valide')]}" groups="oclinic.group_clinic_caissier"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="ouvert,verrouille,valide" />
+                      </header>
+                      <sheet>
+                      <group>
+                        <group>
+							<field name="name" />
+							<field name="datetrans" attrs="{'readonly': [('state', '!=', 'tt')]}"/>
+							<field name="destination" attrs="{'readonly': [('state', '!=', 'ouvert')]}"/>
+							<field name="state" invisible="1"/>
+							<field name="montant" attrs="{'readonly': [('state', '!=', 'ouvert')]}"/>
+							<field name="ref" attrs="{'readonly': [('state', '!=', 'ouvert')]}"/>
+							<field name="caissier_id" />
+							<field name="tresorier_id" />
+                        </group>
+                      </group>
+                    </sheet>
+                </form>
+			</field>
+	     </record>
+		 
+		 <record id="clinic_transfert_tree" model="ir.ui.view">
+	         <field name="name">clinic.transfert.tree</field>
+             <field name="model">clinic.transfert</field>
+             <field name="arch" type="xml">
+	         <tree string="Transferts">
+							<field name="datetrans" attrs="{'readonly': [('state', '!=', 'tt')]}"/>
+							<field name="destination" attrs="{'readonly': [('state', '!=', 'ouvert')]}"/>
+							<field name="state" invisible="1"/>
+							<field name="montant"/>
+							<field name="caissier_id" />
+							<field name="tresorier_id" />
+                </tree>
+			</field>
+	     </record>
+
+ <record model="ir.actions.act_window" id="action_clinic_transfert">
+      <field name="name">Transferts</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">clinic.transfert</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="clinic_transfert_tree"/>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Cliquer ici pour ajouter un transfert
+        </p>
+      </field>
+    </record>
+ <record model="ir.actions.act_window" id="action_clinic_facture">
+      <field name="name">Factures</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">clinic.facture</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="clinic_facture_tree"/>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Cliquer ici pour ajouter une facture
+        </p>
+      </field>
+    </record>
+    <!--<menuitem id="point_of_sale.menu_point_ofsale" parent="point_of_sale.menu_point_of_sale" action="point_of_sale.action_pos_pos_form" sequence="1" groups="group_micro_empty_group"/>-->
+    <delete id="point_of_sale.menu_point_ofsale" model="ir.ui.menu"/>
+    <delete id="point_of_sale.menu_pos_products" model="ir.ui.menu"/>
+    <delete id="point_of_sale.menu_point_of_sale" model="ir.ui.menu"/>
+    <delete id="point_of_sale.menu_point_of_sale" model="ir.ui.menu"/>
+    <delete id="point_of_sale.menu_point_rep" model="ir.ui.menu"/>
+    <delete id="point_of_sale.menu_report_pos_order_all" model="ir.ui.menu"/>
+    <delete id="point_of_sale.menu_report_order_details" model="ir.ui.menu"/>
+    <menuitem
+        id="point_of_sale.menu_pos_session_all"
+        parent="point_of_sale.menu_point_root"
+        action="point_of_sale.action_pos_session"
+        sequence="10"
+        groups="point_of_sale.group_pos_manager"/>
+
+    <menuitem 
+        id="point_of_sale.clinic_patient"
+        parent="point_of_sale.menu_point_root"
+        action="olis.action_clinic_patient"
+        sequence="40"
+        name="Patients"/>
+
+<!--<menuitem
+        id="point_of_sale.clinic_facture"
+        parent="point_of_sale.menu_point_root"
+        action="oclinic.action_clinic_facture"
+        sequence="45"
+        name="Factures Hospi"/>
+<menuitem
+        id="point_of_sale.clinic_factureas"
+        parent="point_of_sale.menu_point_root"
+        action="oclinic.action_clinic_factureas"
+        sequence="48"
+        name="Factures Assurance"/>
+<menuitem
+        id="point_of_sale.clinic_reglement"
+        parent="point_of_sale.menu_point_root"
+        action="oclinic.action_clinic_reglement"
+        sequence="49"
+        name="Règlements"/>-->
+	<menuitem 
+        id="clinic_parametre"
+        parent="point_of_sale.menu_point_root"
+        sequence="50"
+        name="Paramètres"/>
+    <menuitem 
+        id="point_of_sale.clinic_assurance"
+        parent="clinic_parametre"
+        action="olis.action_clinic_assurance"
+        sequence="10"
+        name="Assurances"/>
+	<menuitem 
+        id="point_of_sale.clinic_societe"
+        parent="clinic_parametre"
+        action="olis.action_clinic_societe"
+        sequence="20"
+        name="Sociétés"/>
+	<menuitem 
+        id="point_of_sale.clinic_medecin"
+        parent="clinic_parametre"
+        action="olis.action_clinic_medecin"
+        sequence="30"
+        name="Medecins"/>
+</data>
+</odoo>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="minimal_layout_inherit" inherit_id="web.minimal_layout">
+		<xpath expr="//head" position="inside">
+			<link rel='stylesheet' href="/oclinic/static/src/css/clinic.css"/>
+		</xpath>
+</template>
+<template id="etatrecettea">
+    <t t-call="web.html_container">
+        <t t-set="data_report_margin_top" t-value="12"/>
+        <t t-set="data_report_header_spacing" t-value="9"/>
+        <t t-set="data_report_dpi" t-value="110"/>
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.basic_layout">
+                <div class="page break-after" style="font-family:Arial, Helvetica, sans-serif; ">
+<t t-if="o.state != 'closed'">
+<div style="position:absolute;opacity:0.25;z-index:1000;transform:rotate(300deg);-webkit-transform:rotate(300deg);width:150%;">
+<p style="font-size:100px;">BROUILLON</p>
+</div>
+</t>
+  <table style="width:100%" class="tablerec">
+						 <thead>
+                           <tr><td colspan="4" align="center"><strong>RECETTE JOURNALIERE DU CENTRE MEDICAL ELLEL DU <t t-esc="o.start_at" t-options="{'widget': 'date'}"/></strong></td></tr> 
+                           <tr>
+							  <td align="center"><strong>PRESTATIONS DU CM</strong></td>
+							  <td align="center"><strong>RECETTES</strong></td>
+							  <td align="center"><strong>DEPENSES</strong></td>
+							  <td align="center"><strong>RESTE</strong></td>
+							</tr>  
+						 </thead>
+						 <t t-set="totrecette" t-value="0"/>
+						 <t t-set="totdepense" t-value="0"/>
+						 <t t-set="tottrans" t-value="0"/>
+						 <t t-foreach="o.env['product.category'].search([],order='ordre')" t-as="cat">
+						    <tr>
+							  <td><t t-esc="cat.name"/></td>
+							  <td align="right">
+						         <t t-set="recette" t-value=""/>
+						         <t t-foreach="o.ligne_resume" t-as="l">
+						          <t t-if="l.prestation==cat.name">
+						           <t t-set="recette" t-value="l.recette"/>
+                                   <span t-esc="'{:,.0f}'.format(recette).replace(',', ' ').replace('.', ',')"/>
+						           <t t-set="totrecette" t-value="totrecette+l.recette"/>
+						          </t>
+						         </t>
+                              </td>
+							  <td class="opc"></td>
+							  <td class="opc"></td>
+							</tr>
+						</t>
+						 <t t-foreach="o.ligne_depense" t-as="dep">
+						   <t t-if="dep.state=='valide'">
+						    <tr>
+							  <td><t t-esc="dep.motif"/></td>
+							  <td class="opc"></td>
+							  <td align="right"><span t-esc="'{:,.0f}'.format(dep.montant).replace(',', ' ').replace('.', ',')"/></td>
+							  <td class="opc"></td>
+							</tr>
+						 <t t-set="totdepense" t-value="totdepense+dep.montant"/>
+						</t>
+						</t>
+						    <tr>
+							  <td><strong>SOLDE DE DEPART</strong></td>
+							  <td align="right"><strong><span t-esc="'{:,.0f}'.format(o.cash_register_balance_start).replace(',', ' ').replace('.', ',')"/></strong></td>
+							  <td align="right"></td>
+							  <td class="opc"></td>
+							</tr>
+						    <tr>
+							  <td><strong>TOTAUX</strong></td>
+							  <td align="right"><strong><span t-esc="'{:,.0f}'.format(totrecette+o.cash_register_balance_start).replace(',', ' ').replace('.', ',')"/></strong></td>
+							  <td align="right"><strong><span t-esc="'{:,.0f}'.format(totdepense).replace(',', ' ').replace('.', ',')"/></strong></td>
+							  <td align="right"><strong><span t-esc="'{:,.0f}'.format(totrecette+o.cash_register_balance_start-totdepense).replace(',', ' ').replace('.', ',')"/></strong></td>
+							</tr>
+						    <t t-foreach="o.ligne_transfert" t-as="trans">
+						       <t t-set="tottrans" t-value="tottrans+trans.montant"/>
+						    </t>
+						    <tr>
+							  <td><strong>REMIS A LA COMPTABILITE</strong></td>
+							  <td align="right"></td>
+							  <td align="right"></td>
+							  <td align="right"><strong><span t-esc="'{:,.0f}'.format(tottrans).replace(',', ' ').replace('.', ',')"/></strong></td>
+							</tr>
+						    <tr>
+							  <td><strong>SOLDE FINAL</strong></td>
+							  <td align="right"></td>
+							  <td align="right"></td>
+							  <td align="right"><strong><span t-esc="'{:,.0f}'.format(totrecette+o.cash_register_balance_start-totdepense-tottrans).replace(',', ' ').replace('.', ',')"/></strong></td>
+							</tr>
+   </table>
+  <table style="width:100%" class="tablerec">
+						    <tr>
+							  <td align="center" style="width:50%"><strong>NOM ET SIGNATURE VENDEUSE<br/><br/><br/><br/></strong></td>
+							  <td><strong>NOM ET SIGNATURE DE LA COMPTABLE</strong></td>							
+                            </tr>
+   </table>
+</div>
+        </t>
+		        </t>
+    </t>
+</template>
+
+</odoo>
