@@ -1,0 +1,281 @@
+<odoo>
+    <data>
+        <!-- ************************ Views Domaine Labo  ************************ -->
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="List_domainelabo">
+            <field name="name">Liste domaine laboratoire</field>
+            <field name="model">teslab.domaine_labo</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code_dom_lab"/>
+                    <field name="lib_domaine_lab"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- >explicit form view definition -->
+        <record model="ir.ui.view" id="form_domainelabo">
+            <field name="name">formulaire domaine laboratoire</field>
+            <field name="model">teslab.domaine_labo</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="code_dom_lab"/>
+                        <field name="lib_domaine_lab"/>
+                        <field name="commentaire_dom_lab"/>
+                    </group>
+                    <notebook>
+                        <page string="Unité de labo">
+                            <field name="unitelabo_ids"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <!--  actions opening views on models -->
+        <record model="ir.actions.act_window" id="domainelabo_action_window">
+            <field name="name">Domaine de laboratoire</field>
+            <field name="res_model">teslab.domaine_labo</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- top menu -->
+        <menuitem name="configuration tests laboratoire" id="config_test_menu_root"/>
+
+        <!--  menu categories &ndash;&gt; -->
+        <menuitem name="Domaine laboratoire" id="menu_Domaine_labo_cat" parent="config_test_menu_root" sequence="1"/>
+        <!--  menu fils + action -->
+        <menuitem name="Liste Domaine laboratoire" id="menu_list_Domainelabo" parent="menu_Domaine_labo_cat"
+                  action="domainelabo_action_window"/>-->
+
+        <!-- ************************ Views Unité Labo  ************************ -->
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="List_unitelabo">
+            <field name="name">Liste unite laboratoire</field>
+            <field name="model">teslab.unite_labo</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="domainelabo_id"/>
+                    <field name="code_unit_lab"/>
+                    <field name="lib_unite_lab"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- explicit form view definition -->
+        <record model="ir.ui.view" id="form_unitelabo">
+            <field name="name">formulaire unite laboratoire</field>
+            <field name="model">teslab.unite_labo</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="code_unit_lab"/>
+                        <field name="lib_unite_lab"/>
+                        <field name="commentaire_unit_lab"/>
+                        <field name="domainelabo_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Rubrique de labo">
+                            <field name="rubriquelabo_ids"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="unitelabo_action_window">
+            <field name="name">Unité de laboratoire</field>
+            <field name="res_model">teslab.unite_labo</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- menu categories -->
+        <menuitem name="Unité laboratoire" id="menu_unite_labo_cat" parent="config_test_menu_root" sequence="2"/>
+        <!-- menu fils + action -->
+        <menuitem name="Liste unité laboratoire" id="menu_list_unitelabo" parent="menu_unite_labo_cat"
+                  action="unitelabo_action_window"/>
+
+        <!-- ************************ Views Rubrique Labo  ************************ -->
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="List_rubriquelabo">
+            <field name="name">Liste rubrique laboratoire</field>
+            <field name="model">teslab.rubrique_labo</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name='unitelabo_id'/>
+                    <field name="code_rub_lab"/>
+                    <field name="lib_rubrique_lab"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- explicit form view definition -->
+        <record model="ir.ui.view" id="form_rubriquelabo">
+            <field name="name">formulaire rubrique laboratoire</field>
+            <field name="model">teslab.rubrique_labo</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="code_rub_lab"/>
+                        <field name="lib_rubrique_lab"/>
+                        <field name="commentaire_rub_lab"/>
+                        <field name="unitelabo_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Tests de labo">
+                            <field name="test_lab_ids"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="rubriquelabo_action_window">
+            <field name="name">rubriques de laboratoire</field>
+            <field name="res_model">teslab.rubrique_labo</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- menu categories -->
+        <menuitem name="Rubrique labo" id="menu_rubrique_labo_cat" parent="config_test_menu_root" sequence="3"/>
+        <!-- menu fils + action -->
+        <menuitem name="Liste rubrique labo" id="menu_list_rubiquelabo" parent="menu_rubrique_labo_cat"
+                  action="rubriquelabo_action_window"/>
+
+        <!-- ************************ Views Test Labo  ************************ -->
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="list_test_lab">
+            <field name="name">Liste tests de laboratoire</field>
+            <field name="model">teslab.test_labo</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="rub_lab_id"/>
+                    <field name="code_int_test_lab"/>
+                    <field name="code_fab_test_lab"/>
+                    <field name="code_univ_test_lab"/>
+                    <field name="lib_test_lab"/>
+                    <field name="val_max_test_lab"/>
+                    <field name="val_min_test_lab"/>
+                    <field name="operateur"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- explicit form view definition -->
+        <record model="ir.ui.view" id="form_test_lab">
+            <field name="name">Liste tests de laboratoire</field>
+            <field name="model">teslab.test_labo</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="code_int_test_lab"/>
+                        <field name="code_fab_test_lab"/>
+                        <field name="code_univ_test_lab"/>
+                        <field name="lib_test_lab"/>
+                        <field name="val_max_test_lab"/>
+                        <field name="val_min_test_lab"/>
+                        <field name="operateur"/>
+                        <field name="commentaire_test_lab"/>
+                        <field name="rub_lab_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Valeurs possibles">
+                            <field name="valeur_result_ids"/>
+                        </page>
+                        <page string="Prestations associées">
+                            <field name="prestation_ids"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="testlabo_action_window">
+            <field name="name">test de laboratoire</field>
+            <field name="res_model">teslab.test_labo</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- menu categories -->
+        <menuitem name="Test laboratoire" id="menu_test_labo_cat" parent="config_test_menu_root" sequence="4"/>
+        <!-- menu fils + action -->
+        <menuitem name="Liste test labo" id="menu_list_testlabo" parent="menu_test_labo_cat"
+                  action="testlabo_action_window"/>
+
+        <!-- ************************ Views Valeur Résultat Labo  ************************ -->
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="list_valeurresultat">
+            <field name="name">Liste valeur résultat</field>
+            <field name="model">teslab.valeur_resultat</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code_val_result"/>
+                    <field name="lib_val_result"/>
+                    <field name="type_val_result"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- explicit form view definition -->
+        <record model="ir.ui.view" id="form_valeurresultat">
+            <field name="name">Formulaire valeur résultat</field>
+            <field name="model">teslab.valeur_resultat</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="code_val_result"/>
+                        <field name="lib_val_result"/>
+                        <field name="type_val_result"/>
+                        <field name="commentaire_val_result"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="valeurresultat_action_window">
+            <field name="name">Liste valeur resultat de laboratoire</field>
+            <field name="res_model">teslab.valeur_resultat</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- menu categories -->
+        <menuitem name="Valeur résultat labo" id="menu_valeur_resultat_labo_cat" parent="config_test_menu_root"
+                  sequence="5"/>
+        <!-- menu fils + action -->
+        <menuitem name="Liste valeur labo" id="menu_list_domainelabo" parent="menu_valeur_resultat_labo_cat"
+                  action="valeurresultat_action_window"/>
+
+
+        <record id="form_Prestation_labo" model="ir.ui.view">
+            <field name="name">prestation.testlabo</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//form//sheet//notebook//page[@name='sales']" position="after">
+                    <page string="Contenu prestation">
+                        <field name="testlab_ids"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+                <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="prestation_action_window">
+            <field name="name">Liste des prestations</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- menu categories -->
+        <menuitem name="Prestation" id="menu_prestation_labo_cat" parent="config_test_menu_root"
+                  sequence="6"/>
+        <!-- menu fils + action -->
+        <menuitem name="Liste des prestations" id="menu_list_prestation" parent="menu_prestation_labo_cat"
+                  action="prestation_action_window"/>
+    </data>
+</odoo>

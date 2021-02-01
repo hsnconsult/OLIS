@@ -2,143 +2,143 @@
 <odoo>
     <data>
         <!-- QWeb Reports -->
-<record id="paysage" model="report.paperformat">
-    <field name="name">A4 Paysage</field>
-    <field name="default" eval="True"/>
-    <field name="format">custom</field>
-    <field name="page_height">297</field>
-    <field name="page_width">210</field>
-    <field name="orientation">Landscape</field>
-    <field name="margin_top">40</field>
-    <field name="margin_bottom">23</field>
-    <field name="margin_left">7</field>
-    <field name="margin_right">7</field>
-    <field name="header_line" eval="False"/>
-    <field name="header_spacing">3</field>
-    <field name="dpi">80</field>
-</record>
-<record id="paysagea5" model="report.paperformat">
-    <field name="name">A5 Paysage</field>
-    <field name="default" eval="True"/>
-    <field name="format">custom</field>
-    <field name="page_height">210</field>
-    <field name="page_width">148</field>
-    <field name="orientation">Landscape</field>
-    <field name="margin_top">40</field>
-    <field name="margin_bottom">23</field>
-    <field name="margin_left">7</field>
-    <field name="margin_right">7</field>
-    <field name="header_line" eval="False"/>
-    <field name="header_spacing">3</field>
-    <field name="dpi">80</field>
-</record>
-<record id="etiquette" model="report.paperformat">
-    <field name="name">Etiquette</field>
-    <field name="default" eval="True"/>
-    <field name="format">custom</field>
-    <field name="page_height">58</field>
-    <field name="page_width">23</field>
-    <field name="orientation">Landscape</field>
-    <field name="margin_top">1</field>
-    <field name="margin_bottom">1</field>
-    <field name="margin_left">1</field>
-    <field name="margin_right">1</field>
-    <field name="header_line" eval="False"/>
-    <field name="header_spacing">3</field>
-    <field name="dpi">80</field>
-</record>
-        <report 
-            id="report_recucaisse"
-            model="clinic.opcaisse"
-            string="Reçu caisse"
-            report_type="qweb-pdf"
-            name="oclinic.recucaissea"
-            file="oclinic.recucaissea"
-            />
-			<report 
-            id="report_recucaution"
-            model="clinic.caution"
-            string="Reçu caution"
-            report_type="qweb-pdf"
-            name="oclinic.recucautiona"
-            file="oclinic.recucautiona"
-		    paperformat="olis.paysagea5"
-            />
-			<report 
-            id="report_recurecettegarde"
-            model="clinic.recettegarde"
-            string="Reçu recette garde"
-            report_type="qweb-pdf"
-            name="oclinic.recurecettegardea"
-            file="oclinic.recurecettegardea"
-		    paperformat="olis.paysagea5"
-            />
-			<report 
-            id="report_btransfert"
-            model="clinic.transfert"
-            string="Transfert"
-            report_type="qweb-pdf"
-            name="oclinic.btransferta"
-            file="oclinic.btransferta"
-		    paperformat="olis.paysagea5"
-            />
-			<report 
-            id="report_etatcloture"
-            model="pos.session"
-            string="Etat Cloture"
-            report_type="qweb-pdf"
-            name="oclinic.etatcloturea"
-            file="oclinic.etatcloturea"
-            />
-			<report 
-            id="report_facture"
-            model="clinic.facture"
-            string="Facture"
-            report_type="qweb-pdf"
-            name="oclinic.facturea"
-            file="oclinic.facturea"
-            />
-			<report 
-            id="report_recureghospi"
-            model="clinic.reghospi"
-            string="Reçu reglement"
-            report_type="qweb-pdf"
-            name="oclinic.recureghospia"
-            file="oclinic.recureghospia"
-		    paperformat="olis.paysagea5"
-            />
-			<report 
-            id="report_factureas"
-            model="clinic.factureas"
-            string="Facture Assurance"
-            report_type="qweb-pdf"
-            name="oclinic.factureasa"
-            file="oclinic.factureasa"
-            />
-			<report 
-            id="report_recette"
-            model="pos.session"
-            string="Recette journaliere"
-            report_type="qweb-pdf"
-            name="oclinic.etatrecettea"
-            file="oclinic.etatrecettea"
-            />
-			<report 
-            id="report_recettedet"
-            model="pos.session"
-            string="Etat ventes"
-            report_type="qweb-pdf"
-            name="oclinic.etatrecettedeta"
-            file="oclinic.etatrecettedeta"
-            />
-			<report 
-            id="report_echantillon"
-            model="clinic.echantillon"
-            string="Echantillon"
-            report_type="qweb-pdf"
-            name="olis.echantillona"
-            file="olis.echantillona"
-		    paperformat="olis.etiquette"
-            />
+        <record id="paysage" model="report.paperformat">
+            <field name="name">A4 Paysage</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">23</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">3</field>
+            <field name="dpi">80</field>
+        </record>
+        <record id="paysagea5" model="report.paperformat">
+            <field name="name">A5 Paysage</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">210</field>
+            <field name="page_width">148</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">23</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">3</field>
+            <field name="dpi">80</field>
+        </record>
+        <record id="etiquette" model="report.paperformat">
+            <field name="name">Etiquette</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">58</field>
+            <field name="page_width">23</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">1</field>
+            <field name="margin_bottom">1</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">3</field>
+            <field name="dpi">80</field>
+        </record>
+        <report
+                id="report_recucaisse"
+                model="clinic.opcaisse"
+                string="Reçu caisse"
+                report_type="qweb-pdf"
+                name="oclinic.recucaissea"
+                file="oclinic.recucaissea"
+        />
+        <report
+                id="report_recucaution"
+                model="clinic.caution"
+                string="Reçu caution"
+                report_type="qweb-pdf"
+                name="oclinic.recucautiona"
+                file="oclinic.recucautiona"
+                paperformat="olis.paysagea5"
+        />
+        <report
+                id="report_recurecettegarde"
+                model="clinic.recettegarde"
+                string="Reçu recette garde"
+                report_type="qweb-pdf"
+                name="oclinic.recurecettegardea"
+                file="oclinic.recurecettegardea"
+                paperformat="olis.paysagea5"
+        />
+        <report
+                id="report_btransfert"
+                model="clinic.transfert"
+                string="Transfert"
+                report_type="qweb-pdf"
+                name="oclinic.btransferta"
+                file="oclinic.btransferta"
+                paperformat="olis.paysagea5"
+        />
+        <report
+                id="report_etatcloture"
+                model="pos.session"
+                string="Etat Cloture"
+                report_type="qweb-pdf"
+                name="oclinic.etatcloturea"
+                file="oclinic.etatcloturea"
+        />
+        <report
+                id="report_facture"
+                model="clinic.facture"
+                string="Facture"
+                report_type="qweb-pdf"
+                name="oclinic.facturea"
+                file="oclinic.facturea"
+        />
+        <report
+                id="report_recureghospi"
+                model="clinic.reghospi"
+                string="Reçu reglement"
+                report_type="qweb-pdf"
+                name="oclinic.recureghospia"
+                file="oclinic.recureghospia"
+                paperformat="olis.paysagea5"
+        />
+        <report
+                id="report_factureas"
+                model="clinic.factureas"
+                string="Facture Assurance"
+                report_type="qweb-pdf"
+                name="oclinic.factureasa"
+                file="oclinic.factureasa"
+        />
+        <report
+                id="report_recette"
+                model="pos.session"
+                string="Recette journaliere"
+                report_type="qweb-pdf"
+                name="oclinic.etatrecettea"
+                file="oclinic.etatrecettea"
+        />
+        <report
+                id="report_recettedet"
+                model="pos.session"
+                string="Etat ventes"
+                report_type="qweb-pdf"
+                name="oclinic.etatrecettedeta"
+                file="oclinic.etatrecettedeta"
+        />
+        <report
+                id="report_echantillon"
+                model="clinic.echantillon"
+                string="Echantillon"
+                report_type="qweb-pdf"
+                name="olis.echantillona"
+                file="olis.echantillona"
+                paperformat="olis.etiquette"
+        />
     </data>
 </odoo>

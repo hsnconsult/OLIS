@@ -1,0 +1,84 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+
+        <record model="ir.ui.view" id="list_resultatlabo">
+            <field name="name">Liste résultat de laboratoire</field>
+            <field name="model">colabo.resultat_labo</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="num_echantillon"/>
+                    <field name="code_univ_result_lab"/>
+                    <field name="lib_test_lab"/>
+<!--                    <field name="type_protocole_rasult_lab"/>-->
+                    <field name="valeur_test"/>
+<!--                    <field name="lot_reactif_result_lab"/>-->
+<!--                    <field name="lot_cq_result_lab"/>-->
+<!--                    <field name="seq_reactif_result_lab"/>-->
+<!--                    <field name="type_resul_lab"/>-->
+                    <field name="unite_result_labo"/>
+                    <field name="val_ref_result_labo"/>
+                    <field name="alerte_result_labo"/>
+                    <field name="statut_result_labo"/>
+                    <field name="dateheure_debut_result_labo"/>
+                    <field name="dateheure_fin_result_labo"/>
+<!--                    <field name="num_serie_instrument_result_lab"/>-->
+<!--                    <field name="commentaire_result_labo"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <!-- explicit form view definition -->
+
+        <record model="ir.ui.view" id="Form_resultatlabo">
+            <field name="name">Formulaire résultat laboratoire</field>
+            <field name="model">colabo.domaine_labo</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="num_echantillon"/>
+                    <field name="code_univ_result_lab"/>
+                    <field name="lib_test_lab"/>
+                    <field name="type_protocole_rasult_lab"/>
+                    <field name="valeur_test"/>
+                    <field name="lot_reactif_result_lab"/>
+                    <field name="lot_cq_result_lab"/>
+                    <field name="seq_reactif_result_lab"/>
+                    <field name="type_resul_lab"/>
+                    <field name="unite_result_labo"/>
+                    <field name="val_ref_result_labo"/>
+                    <field name="alerte_result_labo"/>
+                    <field name="statut_result_labo"/>
+                    <field name="dateheure_debut_result_labo"/>
+                    <field name="dateheure_fin_result_labo"/>
+                    <field name="num_serie_instrument_result_lab"/>
+                    <field name="commentaire_result_labo"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="domainelabo_action_window">
+            <field name="name">domaine de laboratoire</field>
+            <field name="res_model">colabo.domaine_labo</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Top menu item -->
+
+        <!-- menu categories -->
+
+        <menuitem name="Domaine labo" id="menu_domaine_labo_cat" parent="colabo_menu_root"/>
+        <!-- <menuitem name="Menu 2" id="colabo.menu_2" parent="colabo.menu_root"/>-->
+
+        <!-- actions -->
+
+        <menuitem name="Liste domaine labo" id="menu_list_domainelabo" parent="menu_domaine_labo_cat"
+                  action="domainelabo_action_window"/>
+        <!-- <menuitem name="Server to list" id="colabo" parent="colabo.menu_2"
+                   action="colabo.action_server"/>
+     -->
+    </data>
+</odoo>

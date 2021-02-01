@@ -1,0 +1,58 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+
+        <record model="ir.ui.view" id="list_domainelabo">
+            <field name="name">Liste tests de laboratoire</field>
+            <field name="model">colabo.domaine_labo</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code_dom_lab"/>
+                    <field name="lib_domaine_lab"/>
+                    <field name="commentaire_dom_lab"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- explicit form view definition -->
+
+        <record model="ir.ui.view" id="Form_domainelabo">
+            <field name="name">Formulaire domaine laboratoire</field>
+            <field name="model">colabo.domaine_labo</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="code_dom_lab"/>
+                        <field name="lib_domaine_lab"/>
+                        <field name="commentaire_dom_lab"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="domainelabo_action_window">
+            <field name="name">domaine de laboratoire</field>
+            <field name="res_model">colabo.domaine_labo</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Top menu item -->
+
+        <menuitem name="CoLabo" id="colabo.menu_root"/>
+
+        <!-- menu categories -->
+
+        <menuitem name="Domaine labo" id="menu_domaine_labo_cat" parent="colabo.menu_root"/>
+        <!-- <menuitem name="Menu 2" id="colabo.menu_2" parent="colabo.menu_root"/>-->
+
+        <!-- actions -->
+
+        <menuitem name="Liste domaine labo" id="menu_list_domainelabo" parent="menu_domaine_labo_cat"
+                  action="domainelabo_action_window"/>
+        <!-- <menuitem name="Server to list" id="colabo" parent="colabo.menu_2"
+                   action="colabo.action_server"/>
+     -->
+    </data>
+</odoo>

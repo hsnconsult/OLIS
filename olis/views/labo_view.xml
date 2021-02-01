@@ -1,118 +1,129 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <act_window 
-            id="action_echantillon"
-            name="ECHANTILLON"
-            res_model="clinic.echantillon"
-            src_model="clinic.recepechant"
-            context="{'default_idreception':active_id}"
-            view_mode="form"
-            target="new"
-            key2="client_action_multi"/>
-<!-- Formulaires  -->
+        <act_window
+                id="action_echantillon"
+                name="ECHANTILLON"
+                res_model="clinic.echantillon"
+                src_model="clinic.recepechant"
+                context="{'default_idreception':active_id}"
+                view_mode="form"
+                target="new"
+                key2="client_action_multi"/>
+        <!-- Formulaires  -->
 
-		 <record id="clinic_recepechant_form" model="ir.ui.view">
-	         <field name="name">clinic.recepechant.form</field>
-             <field name="model">clinic.recepechant</field>
-             <field name="arch" type="xml">
-	         <form string="Reception">
-                      <header>
-					    <button name="selectionner" string="MONTRER EXAMENS" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'brouillon')]}" />
-                        <button name="valider" string="VALIDER" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'brouillon')]}" />
-                      </header>
-                      <sheet>
-                        <button class="oe_stat_button" name="%(action_echantillon)d" style="margin-right:20px; float:right; font-weight:bold; font-size:22px"
-                            type="action" icon="fa-plus-square"
-                            groups="olis.group_clinic_caissier">
+        <record id="clinic_recepechant_form" model="ir.ui.view">
+            <field name="name">clinic.recepechant.form</field>
+            <field name="model">clinic.recepechant</field>
+            <field name="arch" type="xml">
+                <form string="Reception">
+                    <header>
+                        <button name="selectionner" string="MONTRER EXAMENS" type="object" class="btn-primary"
+                                attrs="{'invisible': [('state', '!=', 'brouillon')]}"/>
+                        <button name="valider" string="VALIDER" type="object" class="btn-primary"
+                                attrs="{'invisible': [('state', '!=', 'brouillon')]}"/>
+                    </header>
+                    <sheet>
+                        <button class="oe_stat_button" name="%(action_echantillon)d"
+                                style="margin-right:20px; float:right; font-weight:bold; font-size:22px"
+                                type="action" icon="fa-plus-square"
+                                groups="olis.group_clinic_caissier">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_text">AJOUTER ECHANTILLON</span>
                             </div>
                         </button>
-                      <group>
                         <group>
-							<field name="state" invisible="1" />
-							<field name="idpatient" attrs="{'readonly': [('state', '!=', 'brouillon')]}"/>
-							<field name="idtarif" attrs="{'readonly': [('state', '!=', 'brouillon')]}" options="{'no_create_edit': True}" domain="[('state','=','valide'),('idpatient','=',idpatient)]"/>
+                            <group>
+                                <field name="state" invisible="1"/>
+                                <field name="idpatient" attrs="{'readonly': [('state', '!=', 'brouillon')]}"/>
+                                <field name="idtarif" attrs="{'readonly': [('state', '!=', 'brouillon')]}"
+                                       options="{'no_create_edit': True}"
+                                       domain="[('state','=','valide'),('idpatient','=',idpatient)]"/>
+                            </group>
+                            <group>
+                                <field name="nompatient"/>
+                            </group>
                         </group>
-                        <group>
-							<field name="nompatient"/>
-                        </group>
-                      </group>
-                    <notebook>
-                        <page string="EXAMENS DEMANDES">
-                            <field name="ligne_examen" nolabel="1"  attrs="{'readonly': [('state', '!=', 'brouillon')]}">
-                                <tree string="examen" editable="bottom" decoration-success="state == 'reculabo'" >
-									<field name="idarticle" />
-									<field name="state"/>
-                            </tree>
-                            </field>
-                        </page>
-                        <page string="ECHANTILLONS">
-                            <field name="ligne_echantillon" nolabel="1"  attrs="{'readonly': [('state', '!=', 'brouillon')]}">
-                                <tree string="examen" editable="bottom">
-									<field name="name" />
-									<field name="idexamen" />
-									<field name="state"/>
-                            </tree>
-                            </field>
-                        </page>
-                    </notebook>
+                        <notebook>
+                            <page string="EXAMENS DEMANDES">
+                                <field name="ligne_examen" nolabel="1"
+                                       attrs="{'readonly': [('state', '!=', 'brouillon')]}">
+                                    <tree string="examen" editable="bottom" decoration-success="state == 'reculabo'">
+                                        <field name="idarticle"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="ECHANTILLONS">
+                                <field name="ligne_echantillon" nolabel="1"
+                                       attrs="{'readonly': [('state', '!=', 'brouillon')]}">
+                                    <tree string="examen" editable="bottom">
+                                        <field name="name"/>
+                                        <field name="idexamen"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
-			</field>
-	     </record>
-<record id="clinic_recepechant_tree" model="ir.ui.view">
-	         <field name="name">clinic.recepechant.tree</field>
-             <field name="model">clinic.recepechant</field>
-             <field name="arch" type="xml">
-	         <tree string="recepechants">
-							<field name="name"/>
-							<field name="idpatient"/>
-							<field name="nompatient"/>
-							<field name="idtarif"/>
-							<field name="state"/>
-
+            </field>
+        </record>
+        <record id="clinic_recepechant_tree" model="ir.ui.view">
+            <field name="name">clinic.recepechant.tree</field>
+            <field name="model">clinic.recepechant</field>
+            <field name="arch" type="xml">
+                <tree string="recepechants">
+                    <field name="name"/>
+                    <field name="idpatient"/>
+                    <field name="nompatient"/>
+                    <field name="idtarif"/>
+                    <field name="state"/>
                 </tree>
-			</field>
-	     </record>
- <record model="ir.actions.act_window" id="action_clinic_recepechant">
-      <field name="name">Reception Echantillons</field>
-      <field name="type">ir.actions.act_window</field>
-      <field name="res_model">clinic.recepechant</field>
-      <field name="view_type">form</field>
-      <field name="view_mode">tree,form</field>
-      <field name="view_id" ref="clinic_recepechant_tree"/>
-      <field name="help" type="html">
-        <p class="oe_view_nocontent_create">
-          Cliquer ici pour ajouter une reception 
-        </p>
-      </field>
-    </record>
-		 <record id="clinic_echantillon_form" model="ir.ui.view">
-	         <field name="name">clinic.echantillon.form</field>
-             <field name="model">clinic.echantillon</field>
-             <field name="arch" type="xml">
-	         <form string="Reception">
-                      <header>
-					    <button name="valider" string="VALIDER" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'brouillon')]}" />
-                        <button name="%(report_echantillon)d" string="IMPRIMER" type="action" icon="fa-print" attrs="{'invisible': [('state', '!=', 'valide')]}"/>
-                      </header>
-                      <sheet>
-                      <group>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_clinic_recepechant">
+            <field name="name">Reception Echantillons</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">clinic.recepechant</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="clinic_recepechant_tree"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Cliquer ici pour ajouter une reception
+                </p>
+            </field>
+        </record>
+        <record id="clinic_echantillon_form" model="ir.ui.view">
+            <field name="name">clinic.echantillon.form</field>
+            <field name="model">clinic.echantillon</field>
+            <field name="arch" type="xml">
+                <form string="Reception">
+                    <header>
+                        <button name="valider" string="VALIDER" type="object" class="btn-primary"
+                                attrs="{'invisible': [('state', '!=', 'brouillon')]}"/>
+                        <button name="%(report_echantillon)d" string="IMPRIMER" type="action" icon="fa-print"
+                                attrs="{'invisible': [('state', '!=', 'valide')]}"/>
+                    </header>
+                    <sheet>
                         <group>
-							<field name="state" invisible="1" />
-							<field name="idreception" invisible="1" />
-							<field name="name"/>
-							<field name="idexamen" attrs="{'readonly': [('state', '!=', 'brouillon')]}" widget="many2many_tags" options="{'no_create_edit': True}" domain="[('state','=','valide'),('idreception','=',idreception)]"/>
+                            <group>
+                                <field name="state" invisible="1"/>
+                                <field name="idreception" invisible="1"/>
+                                <field name="name"/>
+                                <field name="idexamen" attrs="{'readonly': [('state', '!=', 'brouillon')]}"
+                                       widget="many2many_tags" options="{'no_create_edit': True}"
+                                       domain="[('state','=','valide'),('idreception','=',idreception)]"/>
+                            </group>
                         </group>
-                      </group>
                     </sheet>
                 </form>
-			</field>
-	     </record>
-	<menuitem id="clinic_labo" sequence="200" name="LABO" web_icon="olis,static/description/labo.png"/>
-	<menuitem id="clinic_labo_recep" sequence="20" name="Réception Echantillons" parent="clinic_labo" action="olis.action_clinic_recepechant" />
+            </field>
+        </record>
+        <menuitem id="clinic_labo" sequence="200" name="LABO" web_icon="olis,static/description/labo.png"/>
+        <menuitem id="clinic_labo_recep" sequence="20" name="Réception Echantillons" parent="clinic_labo"
+                  action="olis.action_clinic_recepechant"/>
     </data>
 
 </odoo>
