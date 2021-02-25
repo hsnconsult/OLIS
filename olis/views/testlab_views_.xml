@@ -41,7 +41,7 @@
         </record>
 
         <!-- top menu -->
-        <menuitem name="PARAM TEST" id="config_test_menu_root"  web_icon="olis,static/description/param.png"/>
+        <menuitem name="PARAM TEST" id="config_test_menu_root"  web_icon="olis,static/description/param.png" sequence="300"/>
 
         <!--  menu categories &ndash;&gt; -->
         <menuitem name="Domaine laboratoire" id="menu_Domaine_labo_cat" parent="config_test_menu_root" sequence="1"/>
