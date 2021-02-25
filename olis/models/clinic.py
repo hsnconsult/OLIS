@@ -5,7 +5,7 @@ from datetime import datetime
 from odoo import api, fields, models, tools, _
 from odoo.addons import decimal_precision as dp
 from odoo.exceptions import UserError
-from odoo.tools.enlettres import convlettres
+#from odoo.tools.enlettres import convlettres
 
 
 
