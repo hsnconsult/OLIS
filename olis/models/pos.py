@@ -19,7 +19,7 @@ class PosSession(models.Model):
     _name = 'pos.session'
     _inherit = 'pos.session'
 
-    @api.multi
+#    @api.multi
     def action_pos_session_open(self):
         # second browse because we need to refetch the data from the DB for cash_register_id
         # we only open sessions that haven't already been opened
@@ -36,13 +36,13 @@ class PosSession(models.Model):
         for session in self:
             session.write({'state': 'opened'})
 
-    @api.one
+#    @api.one
     def _create_bank_statement_line(self, record, montant, libelle, partenaire, reference):
         if record.state == 'confirm':
             raise UserError(_("You cannot put/take money in/out for a bank statement which is closed."))
         values = self._calculate_values_for_statement_line(record, montant, libelle, partenaire, reference)
         return record.write({'line_ids': [(0, False, values)]})
-    @api.multi
+#    @api.multi
     def _calculate_values_for_statement_line(self, record, montant, libelle, partenaire, reference):
         #if not record.journal_id.company_id.transfer_account_id:
         #    raise UserError(_("You should have defined an 'Internal Transfer Account' in your cash register's journal!"))
@@ -56,7 +56,7 @@ class PosSession(models.Model):
             'name': libelle,
         }
 
-    @api.multi
+#    @api.multi
     def action_pos_session_close(self):
         # Close CashBox
         for session in self:
@@ -80,7 +80,7 @@ class PosSession(models.Model):
             'params': {'menu_id': self.env.ref('point_of_sale.menu_point_root').id},
         }
 
-    @api.multi
+#    @api.multi
     def action_pos_session_closing_control(self):
         self._check_pos_session_balance()
         for session in self:
@@ -188,7 +188,7 @@ class clinic_transfert(models.Model):
         'type': 'ir.actions.act_window',
         'target': 'new',
     }
-    @api.multi
+#    @api.multi
     def validetransfert(self):
         company_id = self.env.user.company_id
         for frais in self:
