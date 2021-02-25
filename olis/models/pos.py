@@ -13,7 +13,7 @@ from odoo.tools import float_is_zero
 from odoo.exceptions import UserError
 from odoo.http import request
 from odoo.addons import decimal_precision as dp
-from odoo.tools.enlettres import convlettres
+#from odoo.tools.enlettres import convlettres
 
 class PosSession(models.Model):
     _name = 'pos.session'
